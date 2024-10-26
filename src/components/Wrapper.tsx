@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 
 interface IWrapperProps {
-  children: ReactNode
+  children?: ReactNode
 }
 
 export default function Wrapper({ children }: IWrapperProps) {

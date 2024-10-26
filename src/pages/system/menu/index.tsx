@@ -1,5 +1,7 @@
+import OrcaMenuTree from './components/OrcaMenuTree.tsx'
+
 export default function Menu() {
   return (
-    <div>Menu</div>
+    <div><OrcaMenuTree/></div>
   )
 }

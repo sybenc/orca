@@ -40,7 +40,7 @@ const MenuList = () => {
     return path // 未找到父菜单时返回路径
   }
 
-  function getNodeFormTree(menu: Menu) {
+  function getNodeFromTree(menu: Menu) {
     if (!menu.children || menu.children.length === 0) {
       return <OrcaMenuListItem
         key={menu.menuId}
@@ -58,7 +58,7 @@ const MenuList = () => {
           component="div"
           disablePadding>
           {
-            menu.children.map((item) => getNodeFormTree(item))
+            menu.children.map((item) => getNodeFromTree(item))
           }
         </List>
       </OrcaMenuListDirectory>
@@ -68,7 +68,7 @@ const MenuList = () => {
   function getMenuNode(list: Menu[]) {
     const result = []
     for (const menu of menuListToTree(list)) {
-      result.push(getNodeFormTree(menu))
+      result.push(getNodeFromTree(menu))
     }
     return (
       <List>{result}</List>

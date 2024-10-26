@@ -5,7 +5,7 @@ import { Menu } from '../models'
 export const getMenuList = createAsyncThunk(
   'menu/getMenuList',
   async () => {
-    const { data: res } = await api.menu.list()
+    const res = await api.menu.list()
     return res.data.items
   }
 )

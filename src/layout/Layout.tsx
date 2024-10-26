@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Box } from '@mui/material'
-import OrcaMenuList from './navigation/orca-menu-list'
+import OrcaMenuList from './navigation/orca-menu-list/OrcaMenuList.tsx'
 
 
 interface ILayoutProps {

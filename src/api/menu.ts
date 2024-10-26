@@ -1,5 +1,4 @@
 import http from '../utils/http/http.ts'
-import { AxiosResponse } from 'axios'
 import { Res } from '../utils/http'
 import { Menu, MenuList, MenuTypeEnum } from '../models'
 
@@ -12,7 +11,7 @@ export interface MenuListParams {
 }
 
 export default {
-  get: (id: number): Promise<AxiosResponse<Res<Menu>>> => http.get(`/menu/${id}`),
-  create: (body: Menu): Promise<AxiosResponse<Res<null>>> => http.post(`/menu`, body),
-  list: (params?: MenuListParams):  Promise<AxiosResponse<Res<MenuList>>> => http.get(`/menu`, {params}),
+  get: (id: number): Promise<Res<Menu>> => http.get(`/menu/${id}`) ,
+  create: (body: Menu): Promise<Res<string>> => http.post(`/menu`, body) ,
+  list: (params?: MenuListParams): Promise<Res<MenuList>> => http.get(`/menu`, { params })
 }

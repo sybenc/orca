@@ -15,15 +15,8 @@ export default function setupInterceptors(axiosInstance: AxiosInstance) {
     return Promise.reject(new Error('Request failed: ' + error.message))
   }
 
-  function resResolve<T>(response: AxiosResponse<Res<T>>): Promise<Res<T> | AxiosResponse> {
-    const { status, headers, data } = response
-    if (headers['Content-Type'] === 'application/json') {
-      if (status === 200) {
-        return Promise.resolve(data)
-      }
-      return Promise.reject(new Error('Response failed'))
-    }
-    return Promise.resolve(response)
+  function resResolve<T>(response: AxiosResponse<Res<T>>): Promise<Res<T>> {
+    return Promise.resolve(response.data)
   }
 
   function resReject(error: Error): Promise<Error> {

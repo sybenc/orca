@@ -1,5 +1,5 @@
 const LCDP = () => {
-  return <h2>About Page</h2>
+  return <h2>LCDP</h2>
 }
 
 export default LCDP

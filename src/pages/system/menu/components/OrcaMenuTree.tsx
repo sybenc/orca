@@ -8,7 +8,7 @@ import {
   UseTreeItem2ContentSlotOwnProps, useTreeItem2Utils
 } from '@mui/x-tree-view'
 import Wrapper from '../../../../components/Wrapper.tsx'
-import { Box, styled } from '@mui/material'
+import { Box, styled, TextField } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import Icon from '../../../../components/Icon.tsx'
 
@@ -59,7 +59,7 @@ const CustomTreeItem = forwardRef(function CustomTreeItem(
       ref={ref}
       slots={{ content: CustomContent, label: CustomLabel }}
       slotProps={{
-        label: { item: item } as ICustomTreeLabelProps
+        label: { item: item } as never
       }}
     />
   )
@@ -68,11 +68,28 @@ const CustomTreeItem = forwardRef(function CustomTreeItem(
 const OrcaMenuTree = () => {
   const [menuTree, setMenuTree] = useState<Menu[]>([])
   const [selectedMenuId, setSelectedMenuId] = useState<string | null>(null)
+  console.log(selectedMenuId)
+  const [expandedItemIds, setExpandedItemIds] = useState<string[]>([])
   useEffect(() => {
     api.menu.list().then(res => {
       setMenuTree(menuListToTree(res.data.items))
+      getDefaultExpanded()
     })
-  })
+  }, [])
+
+  function getDefaultExpanded() {
+    const itemIds: string[] = []
+    const registerId = (item: Menu) => {
+      if (item.children && item.children.length > 0) {
+        itemIds.push(item.menuId)
+        item.children.forEach(registerId)
+      }
+    }
+
+    menuTree.forEach(registerId)
+    setExpandedItemIds(itemIds)
+  }
+
   const handleItemSelectionToggle = (
     _: SyntheticEvent,
     itemId: string,
@@ -83,11 +100,21 @@ const OrcaMenuTree = () => {
     }
   }
 
+  const handleExpandedItemsChange = (
+    _: SyntheticEvent,
+    itemIds: string[]
+  ) => {
+    setExpandedItemIds(itemIds)
+  }
+
   return (
     <Wrapper>
+      <TextField></TextField>
       <RichTreeView
         onItemSelectionToggle={handleItemSelectionToggle}
         items={menuTree}
+        expandedItems={expandedItemIds}
+        onExpandedItemsChange={handleExpandedItemsChange}
         itemChildrenIndentation={16}
         getItemId={(item: Menu) => item.menuId}
         sx={{ height: 'fit-content', flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}

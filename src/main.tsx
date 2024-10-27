@@ -20,11 +20,6 @@ const theme = createTheme({
     },
   },
   components: {
-    MuiButton: {
-      defaultProps: {
-        disableRipple: true,      // 禁用点击涟漪效果
-      },
-    },
     MuiListItemButton: {
       defaultProps: {
         disableRipple: true,      // 禁用点击涟漪效果

@@ -1,0 +1,16 @@
+{
+  "name": "@orca/ui",
+  "version": "1.0.0",
+  "description": "",
+  "private": false,
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "author": "Sybenc",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+  }
+}

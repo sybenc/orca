@@ -32,6 +32,9 @@ importers:
       '@orca-lcdp/canvas':
         specifier: workspace:*
         version: link:core/@orca-lcdp/canvas
+      '@orca/charts':
+        specifier: workspace:*
+        version: link:core/@orca/charts
       '@orca/ui':
         specifier: workspace:*
         version: link:core/@orca/ui
@@ -112,6 +115,8 @@ importers:
   core/@orca-lcdp/canvas: {}
 
   core/@orca-lcdp/material: {}
+
+  core/@orca/charts: {}
 
   core/@orca/ui: {}
 

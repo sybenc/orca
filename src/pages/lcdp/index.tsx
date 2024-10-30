@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Icon, Checkbox, ToggleButton, ToggleButtonGroup } from '@orca/ui'
 import { Stack } from '@mui/material'
-import { Ruler } from '@orca-lcdp/canvas'
+import { XRuler, YRuler } from '@orca-lcdp/canvas'
 
 const LCDP = () => {
   return (
@@ -49,9 +49,9 @@ const LCDP = () => {
           <Icon name="FormatAlignRight" fontSize="large" />
         </ToggleButton>
       </ToggleButtonGroup>
-      <Ruler></Ruler>
+      <XRuler width={1200} />
+      <YRuler height={400} />
     </div>
-
   )
 }
 

@@ -1,6 +1,6 @@
 import { Button, ButtonProps, styled } from '@mui/material'
 import { FC, ReactNode } from 'react'
-import buttonConfig from './config.ts'
+import buttonConf from './conf.ts'
 
 interface IButtonProps extends ButtonProps {
   children?: ReactNode
@@ -9,17 +9,20 @@ interface IButtonProps extends ButtonProps {
 const OrcaCustomButton: FC<IButtonProps> = styled(Button)(({ size }) => ({
   ...(size === 'small' && {
     '&.MuiButton-sizeSmall': {
-      height: buttonConfig.small
+      height: buttonConf.height.small,
+      padding: buttonConf.padding.small,
     }
   }),
   ...(size === 'medium' && {
     '&.MuiButton-sizeMedium': {
-      height: buttonConfig.medium
+      height: buttonConf.height.medium,
+      padding: buttonConf.padding.medium,
     }
   }),
   ...(size === 'large' && {
     '&.MuiButton-sizeLarge': {
-      height: buttonConfig.large
+      height: buttonConf.height.large,
+      padding: buttonConf.padding.large,
     }
   })
 }))

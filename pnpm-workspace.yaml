@@ -1,3 +1,4 @@
 packages:
-  - 'packages/*'
-  - 'apps/*'
+  - 'core/@orca-lcdp/*'
+  - 'core/@orca/*'
+  - 'components/*'

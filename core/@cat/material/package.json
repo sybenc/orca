@@ -1,16 +1,13 @@
 {
-  "name": "@orca/ui",
+  "name": "@cat/material",
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "main": "src/index.ts",
-  "types": "src/index.ts",
-  "author": "Sybenc",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "license": "ISC",
-  "dependencies": {
-  }
+  "author": "",
+  "license": "ISC"
 }

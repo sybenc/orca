@@ -1,46 +1,52 @@
 import { FC, useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 import { Box, IBoxProps } from '@orca/ui'
+import { SxProps } from '@mui/material'
 
 export interface IXAxisProps extends IBoxProps {
   width: number
   scale?: number
+  transform?: d3.ZoomTransform;
   tickColor?: string
   textColor?: string
   axisShow?: boolean
   labelShow?: boolean
   labelSuffix?: string
+  offset?: number
   backgroundColor?: string
 }
 
 const XRuler: FC<IXAxisProps> = (props) => {
   const {
-    scale = 1,
+    transform,
     width,
+    scale = 1,
     tickColor = '#5F6369',
     textColor = '#5F6369',
     axisShow = false,
     labelShow = true,
     labelSuffix = '',
     backgroundColor = '#F3F4F6',
+    offset = 0,
     ...other
   } = props
 
-  const svgRef = useRef<SVGSVGElement | null>(null)
+  const rulerRef = useRef<SVGSVGElement | null>(null)
 
   useEffect(() => {
-    if (!svgRef.current) return
-    const minTickSpacing = 10
-    const tickSpacing = minTickSpacing * scale
-    const tickCount = Math.ceil(width / tickSpacing)
-    const g = d3.select(svgRef.current)
-    const axis = d3.axisBottom(d3.scaleLinear().domain([0, 100]).range([0, width]))
-      .ticks(tickCount)
+    if (!rulerRef.current) return
+    const g = d3.select(rulerRef.current)
+    // 定义比例尺并应用缩放变换
+    const rulerScale = d3.scaleLinear()
+      .domain([-100 * 1.2, 100 * 1.2])
+      .range([-width * 1.2 * scale, width * 1.2 * scale])
+
+    // 根据缩放级别调整刻度数量
+    const axis = d3.axisBottom(rulerScale).ticks(200 * 1.2)
 
     g.call(axis)
       .selectAll('path, line')
       .attr('stroke', tickColor)
-      .attr('transform', 'translate(0.5, 0.5)')
 
     g.selectAll('.tick text')
       .each(function(datum) {
@@ -56,7 +62,6 @@ const XRuler: FC<IXAxisProps> = (props) => {
       .style('cursor', 'default')
 
     g.selectAll('.tick line')
-      .attr('transform', 'translate(0.5, 0.5)')
       .attr('y2', (_, index) => {
         if (index % 10 === 0) return 11
         if (index % 10 !== 0 && index % 5 === 0) return 8
@@ -65,13 +70,20 @@ const XRuler: FC<IXAxisProps> = (props) => {
 
 
     g.select('.domain').style('display', axisShow ? 'block' : 'none')
+  }, [width, tickColor, textColor, axisShow, labelShow, labelSuffix, transform, offset])
 
-  }, [scale, width, tickColor, textColor, axisShow, labelShow, labelSuffix])
+  const boxStyle = {
+    backgroundColor,
+    height: 18,
+    width: width * 1.2 * scale,
+    boxSizing: 'border-box',
+    borderBottom: '1px solid #E5E5E5'
+  } as SxProps
 
   return (
-    <Box sx={{ backgroundColor, height: 18 }} {...other}>
-      <svg height={18} width={width + 50}>
-        <g ref={svgRef} transform="translate(18,0)" />
+    <Box sx={boxStyle} {...other}>
+      <svg height={18} width="100%">
+        <g ref={rulerRef} transform={`translate(${offset},0)`} />
       </svg>
     </Box>
   )

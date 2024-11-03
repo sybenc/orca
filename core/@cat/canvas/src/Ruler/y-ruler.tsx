@@ -1,6 +1,7 @@
 import { FC, useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 import { Box, IBoxProps } from '@orca/ui'
+import { SxProps } from '@mui/material'
 
 export interface IYAxisProps extends IBoxProps {
   height: number
@@ -10,6 +11,7 @@ export interface IYAxisProps extends IBoxProps {
   axisShow?: boolean
   labelShow?: boolean
   labelSuffix?: string
+  offset?: number
   backgroundColor?: string
 }
 
@@ -22,6 +24,7 @@ const YRuler: FC<IYAxisProps> = (props) => {
     axisShow = false,
     labelShow = true,
     labelSuffix = '',
+    offset = 0,
     backgroundColor = '#F3F4F6',
     ...other
   } = props
@@ -29,17 +32,15 @@ const YRuler: FC<IYAxisProps> = (props) => {
   const svgRef = useRef<SVGSVGElement | null>(null)
   useEffect(() => {
     if (!svgRef.current) return
-    const minTickSpacing = 10
-    const tickSpacing = minTickSpacing * scale
-    const tickCount = Math.ceil(height / tickSpacing)
     const g = d3.select(svgRef.current)
-    const axis = d3.axisLeft(d3.scaleLinear().domain([0, height]).range([0, height]))
-      .ticks(tickCount)
+    const axis = d3.axisLeft(d3.scaleLinear()
+      .domain([-height * scale, height * scale])
+      .range([-height * scale, height * scale]))
+      .tickValues(d3.range(-500, height * scale, 10))
 
     g.call(axis)
       .selectAll('path, line')
       .attr('stroke', tickColor)
-      .attr('transform', 'translate(0.5, 0.5)')
 
     g.selectAll('.tick text')
       .attr('transform', 'translate(21,4)')
@@ -61,7 +62,6 @@ const YRuler: FC<IYAxisProps> = (props) => {
 
 
     g.selectAll('.tick line')
-      .attr('transform', 'translate(0.5, 0.5)')
       .attr('x1', (_, index) => {
         if (index % 10 === 0) return 11
         if (index % 10 !== 0 && index % 5 === 0) return 8
@@ -70,12 +70,18 @@ const YRuler: FC<IYAxisProps> = (props) => {
 
     g.select('.domain').style('display', axisShow ? 'block' : 'none')
 
-  }, [scale, height, tickColor, textColor, axisShow, labelShow, labelSuffix])
-
+  }, [scale, height, tickColor, textColor, axisShow, labelShow, labelSuffix, offset])
+  const boxStyle = {
+    backgroundColor,
+    width: 18,
+    height,
+    boxSizing: 'border-box',
+    borderRight: '1px solid #E5E5E5'
+  } as SxProps
   return (
-    <Box sx={{ backgroundColor, width: 18 }} {...other}>
-      <svg width={18} height={height + 100}>
-        <g ref={svgRef} transform="translate(0,18)"></g>
+    <Box sx={boxStyle} {...other}>
+      <svg width={18} height="100%">
+        <g ref={svgRef} transform={`translate(0,${offset - 18})`}></g>
       </svg>
     </Box>
   )

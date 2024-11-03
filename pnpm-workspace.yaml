@@ -2,3 +2,4 @@ packages:
   - 'core/@cat/*'
   - 'core/@orca/*'
   - 'packages/@squirrel/*'
+  - 'packages/@utils/*'
